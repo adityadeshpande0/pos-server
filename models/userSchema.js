@@ -3,45 +3,32 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
-  phoneNumber: { type: String, required: true },
-  password: { type: String, required: true },
-  address: {
-    street: String,
-    city: String,
-    state: String,
-    pincode: String,
-    location: {
-      latitude: { type: Number, required: false },
-      longitude: { type: Number, required: false },
-    },
+  phoneNumber: { type: String, required: true, unique: true },
+  role: {
+    type: String,
+    enum: ["superAdmin", "hotelAdmin", "manager", "waiter", "cashier"],
   },
-  subscriptions: [
+  profilePicture: {
+    type: String,
+    default: "https://www.gravatar.com/avatar/",
+  },
+  status: { type: String, enum: ["active", "inactive"], default: "active" },
+  permissions: [
     {
-      vendorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Vendor",
-        required: false,
-      },
-      subscriptionType: { type: String, required: false },
-      product: { type: String, required: false },
-      startDate: { type: Date, required: false },
-      endDate: { type: Date, required: false },
-      status: { type: String, default: "active" },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Permission",
     },
   ],
-  orders: [
-    {
-      vendorId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Vendor",
-        required: false,
-      },
-      product: { type: String, required: false },
-      quantity: { type: Number, required: false },
-      orderDate: { type: Date, default: Date.now },
-      status: { type: String, default: "pending" },
-    },
-  ],
+  loyaltyPoints: { type: Number, default: 0 },
+  birthday: { type: Date },
+  discount: { type: Number },
+  authentication: {
+    password: { type: String, required: true },
+    salt: { type: String, required: true },
+    resetToken: { type: String },
+    resetTokenExpiration: { type: Date },
+    lastLogin: { type: Date },
+  },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
