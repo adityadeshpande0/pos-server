@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const BusinessAdmin = require("..//../models/business/businessAdmin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -14,7 +13,6 @@ exports.registerBusinessAdmin = async (req, res) => {
   } = req.body;
 
   try {
-    // Check for existing email or phone number
     const existingEmail = await BusinessAdmin.findOne({ businessEmail });
     const existingPhone = await BusinessAdmin.findOne({ businessPhoneNumber });
 
@@ -22,14 +20,14 @@ exports.registerBusinessAdmin = async (req, res) => {
       return res.status(400).json({ message: "Email already registered" });
     }
     if (existingPhone) {
-      return res.status(400).json({ message: "Phone number already registered" });
+      return res
+        .status(400)
+        .json({ message: "Phone number already registered" });
     }
 
-    // Generate salt and hash the password
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
-    // Create the BusinessAdmin instance
     const businessAdmin = new BusinessAdmin({
       businessName,
       businessEmail,
@@ -41,10 +39,8 @@ exports.registerBusinessAdmin = async (req, res) => {
       },
     });
 
-    // Save to the database
     await businessAdmin.save();
 
-    // Generate a JWT token
     const payload = {
       id: businessAdmin._id,
       role: businessAdmin.role,
@@ -54,7 +50,6 @@ exports.registerBusinessAdmin = async (req, res) => {
       expiresIn: "1h",
     });
 
-    // Send the response
     res.status(201).json({
       message: "Business Admin registered successfully",
       authToken,

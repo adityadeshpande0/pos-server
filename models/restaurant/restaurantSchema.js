@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
+const restaurantSchema = new mongoose.Schema({
+  restaurantName: { type: String, required: true },
+  ownerName: { type: String, required: true },
+  restaurantEmail: { type: String, required: true, unique: true },
+  ownerEmail: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: true, unique: true },
+  ownerPhoneNumber: { type: String, required: true, unique: true },
+  gstNumber: { type: String, required: true, unique: true },
   role: {
     type: String,
     enum: ["superAdmin", "hotelAdmin", "manager", "waiter", "cashier"],
+    default: "superAdmin",
   },
   profilePicture: {
     type: String,
@@ -20,7 +25,8 @@ const userSchema = new mongoose.Schema({
     },
   ],
   loyaltyPoints: { type: Number, default: 0 },
-  birthday: { type: Date },
+  dateEstablished: { type: Date },
+  ownerDOB: { type: Date },
   discount: { type: Number },
   authentication: {
     password: { type: String, required: true },
@@ -33,4 +39,4 @@ const userSchema = new mongoose.Schema({
   updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("Restaurant", restaurantSchema);
