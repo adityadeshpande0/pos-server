@@ -18,12 +18,12 @@ const corsConfigurations = {
 app.use(cors(corsConfigurations));
 
 app.options("*", cors(corsConfigurations));
-
+  
 //DATABASE CONNECTION
 DBConnect();
 
 app.use(express.json());
-app.use("/blue-drop/auth", appRoutes);
+app.use("/respos/auth", appRoutes);
 
 const serverPort = process.env.PORT;
 
