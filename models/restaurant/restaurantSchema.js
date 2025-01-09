@@ -28,6 +28,11 @@ const restaurantSchema = new mongoose.Schema({
   dateEstablished: { type: Date },
   ownerDOB: { type: Date },
   discount: { type: Number },
+  businessAdminId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BusinessAdmin",
+    required: true,
+  },
   authentication: {
     password: { type: String, required: true },
     salt: { type: String, required: true },

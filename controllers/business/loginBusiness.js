@@ -1,4 +1,4 @@
-const BusinessAdmin = require("../models/businessAdminSchema");
+const BusinessAdmin = require("..//..//models/business/businessAdmin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
