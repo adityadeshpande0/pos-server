@@ -7,6 +7,21 @@ const restaurantSchema = new mongoose.Schema({
   ownerEmail: { type: String, required: true, unique: true },
   phoneNumber: { type: String, required: true, unique: true },
   ownerPhoneNumber: { type: String, required: true, unique: true },
+  address: {
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
+    country: { type: String, required: true },
+    zipCode: { type: String, required: true },
+  },
+  subscriptionDetails: {
+    subscriptionType: {
+      type: String,
+      enum: ["trial", "free", "basic", "premium"],
+    },
+    subscriptionStartDate: { type: Date },
+    subscriptionEndDate: { type: Date },
+  },
   gstNumber: { type: String, required: true, unique: true },
   role: {
     type: String,
