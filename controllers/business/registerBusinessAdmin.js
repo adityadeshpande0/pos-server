@@ -47,7 +47,7 @@ exports.registerBusinessAdmin = async (req, res) => {
     };
 
     const authToken = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "30d",
     });
 
     res.status(201).json({

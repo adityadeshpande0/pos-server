@@ -6,8 +6,8 @@ const businessAdminSchema = new mongoose.Schema({
   businessPhoneNumber: { type: String, required: true, unique: true },
   role: {
     type: String,
-    enum: ["businessAdmin"],
-    default: "businessAdmin",
+    enum: ["BUSINESS_ADMIN"],
+    default: "BUSINESS_ADMIN",
   },
   profilePicture: {
     type: String,

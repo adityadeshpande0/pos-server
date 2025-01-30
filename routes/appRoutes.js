@@ -16,7 +16,7 @@ const router = express.Router();
 //POST calls
 router.post("/register-resturant", verifyBusinessAdmin, registerRestaurant);
 router.post("/login-restaurant", loginRestaurant);
-router.post("/register-admin-business", registerBusinessAdmin);
+router.post("/register-business-admin", registerBusinessAdmin);
 router.post("/login-business", loginBusiness);
 
 //GET calls
