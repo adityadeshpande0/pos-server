@@ -4,10 +4,11 @@ const businessAdminSchema = new mongoose.Schema({
   businessName: { type: String, required: true },
   businessEmail: { type: String, required: true, unique: true },
   businessPhoneNumber: { type: String, required: true, unique: true },
-  role: {
-    type: String,
-    enum: ["BUSINESS_ADMIN"],
-    default: "BUSINESS_ADMIN",
+  roleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "RoleAccess",
+    
+    required: true,
   },
   profilePicture: {
     type: String,

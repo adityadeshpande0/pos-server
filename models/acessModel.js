@@ -1,8 +1,17 @@
 const mongoose = require("mongoose");
 
 const RoleAccessSchema = new mongoose.Schema({
-  role: {
+  roleName: {
     type: String,
+    enum: [
+      "BUSNESS_ADMIN",
+      "STORE_ADMIN",
+      "STORE_MANAGER",
+      "STORE_WAITER",
+      "STORE_CHEF",
+      "STORE_CASHIER",
+      "BUSINESS_TECHNITIAN",
+    ],
     required: true,
     unique: true,
   },
