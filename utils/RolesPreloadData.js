@@ -1,4 +1,4 @@
- const roles = [
+const roles = [
   {
     roleName: "BUSINESS_ADMIN",
     permissions: {
@@ -46,6 +46,31 @@
         access: true,
         inventory_list: true,
         add_inventory: true,
+      },
+    },
+  },
+  {
+    roleName: "STORE_MANAGER",
+    permissions: {
+      food_management: {
+        access: false,
+        add_menu: false,
+        add_addons: false,
+        add_recipe: false,
+        food_list: false,
+        addon_list: false,
+        recipe_list: false,
+      },
+      order_management: {
+        access: false,
+        order_list: false,
+        new_order: false,
+        bill_list: false,
+      },
+      inventory_management: {
+        access: false,
+        inventory_list: false,
+        add_inventory: false,
       },
     },
   },

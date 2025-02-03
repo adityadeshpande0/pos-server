@@ -5,7 +5,7 @@ const RolesPreloadData = require('../../utils/RolesPreloadData');
 const insertRoles = async () => {
   try {
     for (const role of RolesPreloadData) {
-      const existingRole = await RoleAccess.findOne({ roleName: role.roleName });
+      const existingRole = await RoleAccess.findOne();
       if (!existingRole) {
         await RoleAccess.create(role);
         console.log(`Role ${role.roleName} added successfully.`);
