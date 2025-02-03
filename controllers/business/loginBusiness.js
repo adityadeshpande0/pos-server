@@ -1,6 +1,7 @@
 const BusinessAdmin = require("..//..//models/business/businessAdmin");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Role = require("../../models/acessModel");
 require("dotenv").config();
 
 exports.loginBusiness = async (req, res) => {
@@ -13,6 +14,7 @@ exports.loginBusiness = async (req, res) => {
         .json({ message: "Email and Password are required" });
     }
     const admin = await BusinessAdmin.findOne({ businessEmail });
+    const role = await Role.findOne({ roleName: "BUSINESS_ADMIN" });
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
@@ -46,6 +48,7 @@ exports.loginBusiness = async (req, res) => {
           message: "Login successful",
           authToken: token,
           adminDetails: {
+            roleName: role.roleName,
             id: admin.id,
             businessName: admin.businessName,
             businessEmail: admin.businessEmail,
