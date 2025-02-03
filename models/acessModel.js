@@ -4,7 +4,7 @@ const RoleAccessSchema = new mongoose.Schema({
   roleName: {
     type: String,
     enum: [
-      "BUSNESS_ADMIN",
+      "BUSINESS_ADMIN",
       "STORE_ADMIN",
       "STORE_MANAGER",
       "STORE_WAITER",

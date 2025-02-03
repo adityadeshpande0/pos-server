@@ -1,4 +1,5 @@
 const BusinessAdmin = require("..//../models/business/businessAdmin");
+const Role = require("../../models/acessModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -25,6 +26,10 @@ exports.registerBusinessAdmin = async (req, res) => {
         .json({ message: "Phone number already registered" });
     }
 
+    const role = await Role.findOne({ roleName: "BUSINESS_ADMIN" });
+    if (!role) {
+      return res.status(400).json({ message: "Role not found" });
+    }
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(password, salt);
 
@@ -32,6 +37,7 @@ exports.registerBusinessAdmin = async (req, res) => {
       businessName,
       businessEmail,
       businessPhoneNumber,
+      roleId: role._id,
       profilePicture: profilePicture || "https://www.gravatar.com/avatar/",
       authentication: {
         hashPassword,
@@ -43,7 +49,7 @@ exports.registerBusinessAdmin = async (req, res) => {
 
     const payload = {
       id: businessAdmin._id,
-      role: businessAdmin.role,
+      role: businessAdmin.roleId,
     };
 
     const authToken = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -58,6 +64,7 @@ exports.registerBusinessAdmin = async (req, res) => {
         businessName: businessAdmin.businessName,
         businessEmail: businessAdmin.businessEmail,
         role: businessAdmin.role,
+        roleName: role.roleName,
         status: businessAdmin.status,
       },
     });
