@@ -74,6 +74,56 @@ const roles = [
       },
     },
   },
+  {
+    roleName: "STORE_CASHIER",
+    permissions: {
+      food_management: {
+        access: false,
+        add_menu: false,
+        add_addons: false,
+        add_recipe: false,
+        food_list: false,
+        addon_list: false,
+        recipe_list: false,
+      },
+      order_management: {
+        access: false,
+        order_list: false,
+        new_order: false,
+        bill_list: false,
+      },
+      inventory_management: {
+        access: false,
+        inventory_list: false,
+        add_inventory: false,
+      },
+    },
+  },
+  {
+    roleName: "STORE_WAITER",
+    permissions: {
+      food_management: {
+        access: false,
+        add_menu: false,
+        add_addons: false,
+        add_recipe: false,
+        food_list: false,
+        addon_list: false,
+        recipe_list: false,
+      },
+      order_management: {
+        access: false,
+        order_list: false,
+        new_order: false,
+        bill_list: false,
+      },
+      inventory_management: {
+        access: false,
+        inventory_list: false,
+        add_inventory: false,
+      },
+    },
+  },
 ];
 
 module.exports = roles;
