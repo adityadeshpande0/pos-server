@@ -1,4 +1,5 @@
-const Restaurant = require("..//..//models/restaurant/restaurantSchema");
+const Restaurant = require("../../models/restaurant/restaurantSchema");
+const BusinessAdmin = require("../../models/business/businessAdmin");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
@@ -19,10 +20,21 @@ exports.registerRestaurant = async (req, res) => {
   } = req.body;
 
   try {
-    // Use businessAdmin details from the token
     const { _id: businessAdminId } = req.businessAdmin;
 
-    // Check for existing unique fields in Restaurant
+    const existingFields = await BusinessAdmin.findOne({
+      $or: [
+        { restaurantEmail },
+        { ownerEmail },
+        { phoneNumber },
+        { ownerPhoneNumber },
+      ],
+    });
+
+    if (existingFields) {
+      return res.status(400).json({ message: "The email is already registered!" });
+    }
+
     const existingRestaurant = await Restaurant.findOne({
       $or: [
         { restaurantEmail },
@@ -37,11 +49,9 @@ exports.registerRestaurant = async (req, res) => {
       return res.status(400).json({ message: "Unique fields already exist" });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create restaurant
     const newRestaurant = new Restaurant({
       restaurantName,
       ownerName,
@@ -54,7 +64,7 @@ exports.registerRestaurant = async (req, res) => {
       dateEstablished,
       ownerDOB,
       discount,
-      businessAdminId, // Automatically associate with the logged-in BusinessAdmin
+      businessAdminId,
       authentication: {
         password: hashedPassword,
         salt,
