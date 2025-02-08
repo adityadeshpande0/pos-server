@@ -8,7 +8,7 @@ const restaurantSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true, unique: true },
   ownerPhoneNumber: { type: String, required: true, unique: true },
   address: {
-    street: { type: String},
+    street: { type: String },
     city: { type: String },
     state: { type: String },
     country: { type: String },
@@ -23,10 +23,10 @@ const restaurantSchema = new mongoose.Schema({
     subscriptionEndDate: { type: Date },
   },
   gstNumber: { type: String, required: true, unique: true },
-  role: {
-    type: String,
-    enum: ["superAdmin", "hotelAdmin", "manager", "waiter", "cashier"],
-    default: "superAdmin",
+  roleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "RoleAccess",
+    required: true,
   },
   profilePicture: {
     type: String,

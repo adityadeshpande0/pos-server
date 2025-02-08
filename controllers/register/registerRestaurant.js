@@ -1,5 +1,5 @@
 const Restaurant = require("../../models/restaurant/restaurantSchema");
-const BusinessAdmin = require("../../models/business/businessAdmin");
+const Role = require("../../models/acessModel");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
@@ -20,21 +20,21 @@ exports.registerRestaurant = async (req, res) => {
   } = req.body;
 
   try {
-    const { _id: businessAdminId } = req.businessAdmin;
-
-    const existingFields = await BusinessAdmin.findOne({
-      $or: [
-        { restaurantEmail },
-        { ownerEmail },
-        { phoneNumber },
-        { ownerPhoneNumber },
-      ],
-    });
-
-    if (existingFields) {
-      return res.status(400).json({ message: "The email is already registered!" });
+    const businessAdminId = req.businessAdmin?._id;
+    if (!businessAdminId) {
+      return res.status(400).json({ message: "Business Admin not found" });
     }
 
+    if (!password) {
+      return res.status(400).json({ message: "Password is required" });
+    }
+
+    const role = await Role.findOne({ roleName: "STORE_ADMIN" });
+    if (!role) {
+      return res.status(400).json({ message: "Role not found" });
+    }
+
+    // Check if restaurant already exists
     const existingRestaurant = await Restaurant.findOne({
       $or: [
         { restaurantEmail },
@@ -46,7 +46,9 @@ exports.registerRestaurant = async (req, res) => {
     });
 
     if (existingRestaurant) {
-      return res.status(400).json({ message: "Unique fields already exist" });
+      return res
+        .status(400)
+        .json({ message: "One or more fields already exist" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -58,6 +60,7 @@ exports.registerRestaurant = async (req, res) => {
       restaurantEmail,
       ownerEmail,
       phoneNumber,
+      roleId: role._id,
       ownerPhoneNumber,
       gstNumber,
       profilePicture: profilePicture || "https://www.gravatar.com/avatar/",
@@ -83,7 +86,7 @@ exports.registerRestaurant = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Error registering restaurant:", error.message);
+    console.error("Error registering restaurant:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
