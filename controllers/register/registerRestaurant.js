@@ -20,21 +20,14 @@ exports.registerRestaurant = async (req, res) => {
   } = req.body;
 
   try {
-    const businessAdminId = req.businessAdmin?._id;
-    if (!businessAdminId) {
-      return res.status(400).json({ message: "Business Admin not found" });
+    if (!restaurantEmail || !ownerEmail || typeof restaurantEmail !== "string" || typeof ownerEmail !== "string") {
+      return res.status(400).json({ message: "Restaurant email and owner email are required and must be valid strings" });
     }
 
-    if (!password) {
-      return res.status(400).json({ message: "Password is required" });
+    if (!restaurantEmail.trim() || !ownerEmail.trim()) {
+      return res.status(400).json({ message: "Restaurant email and owner email cannot be empty" });
     }
 
-    const role = await Role.findOne({ roleName: "STORE_ADMIN" });
-    if (!role) {
-      return res.status(400).json({ message: "Role not found" });
-    }
-
-    // Check if restaurant already exists
     const existingRestaurant = await Restaurant.findOne({
       $or: [
         { restaurantEmail },
@@ -46,13 +39,21 @@ exports.registerRestaurant = async (req, res) => {
     });
 
     if (existingRestaurant) {
-      return res
-        .status(400)
-        .json({ message: "One or more fields already exist" });
+      return res.status(400).json({ message: "One or more fields already exist" });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+
+    const role = await Role.findOne({ roleName: "STORE_ADMIN" });
+    if (!role) {
+      return res.status(400).json({ message: "Role not found" });
+    }
+
+    const businessAdminId = req.businessAdmin?._id;
+    if (!businessAdminId) {
+      return res.status(400).json({ message: "Business Admin not found" });
+    }
 
     const newRestaurant = new Restaurant({
       restaurantName,
@@ -60,13 +61,13 @@ exports.registerRestaurant = async (req, res) => {
       restaurantEmail,
       ownerEmail,
       phoneNumber,
-      roleId: role._id,
       ownerPhoneNumber,
       gstNumber,
       profilePicture: profilePicture || "https://www.gravatar.com/avatar/",
       dateEstablished,
       ownerDOB,
       discount,
+      roleId: role._id,
       businessAdminId,
       authentication: {
         password: hashedPassword,
@@ -82,7 +83,6 @@ exports.registerRestaurant = async (req, res) => {
         id: newRestaurant._id,
         restaurantName: newRestaurant.restaurantName,
         ownerName: newRestaurant.ownerName,
-        businessAdminId: newRestaurant.businessAdminId,
       },
     });
   } catch (error) {
