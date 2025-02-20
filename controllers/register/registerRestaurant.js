@@ -20,12 +20,35 @@ exports.registerRestaurant = async (req, res) => {
   } = req.body;
 
   try {
-    if (!restaurantEmail || !ownerEmail || typeof restaurantEmail !== "string" || typeof ownerEmail !== "string") {
-      return res.status(400).json({ message: "Restaurant email and owner email are required and must be valid strings" });
+    if (
+      !restaurantEmail ||
+      !ownerEmail ||
+      !phoneNumber ||
+      !ownerPhoneNumber ||
+      !gstNumber ||
+      typeof restaurantEmail !== "string" ||
+      typeof ownerEmail !== "string" ||
+      typeof phoneNumber !== "string" ||
+      typeof ownerPhoneNumber !== "string" ||
+      typeof gstNumber !== "string"
+    ) {
+      return res.status(400).json({
+        message:
+          "Restaurant email, owner email, phone numbers, and GST number are required and must be valid strings",
+      });
     }
 
-    if (!restaurantEmail.trim() || !ownerEmail.trim()) {
-      return res.status(400).json({ message: "Restaurant email and owner email cannot be empty" });
+    if (
+      !restaurantEmail.trim() ||
+      !ownerEmail.trim() ||
+      !phoneNumber.trim() ||
+      !ownerPhoneNumber.trim() ||
+      !gstNumber.trim()
+    ) {
+      return res.status(400).json({
+        message:
+          "Restaurant email, owner email, phone numbers, and GST number cannot be empty",
+      });
     }
 
     const existingRestaurant = await Restaurant.findOne({
@@ -39,7 +62,9 @@ exports.registerRestaurant = async (req, res) => {
     });
 
     if (existingRestaurant) {
-      return res.status(400).json({ message: "One or more fields already exist" });
+      return res
+        .status(400)
+        .json({ message: "One or more fields already exist" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -68,7 +93,7 @@ exports.registerRestaurant = async (req, res) => {
       ownerDOB,
       discount,
       roleId: role._id,
-      businessAdminId,
+      businessAdminId: businessAdminId,
       authentication: {
         password: hashedPassword,
         salt,

@@ -7,7 +7,6 @@ const businessAdminSchema = new mongoose.Schema({
   roleId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "RoleAccess",
-    
     required: true,
   },
   profilePicture: {
