@@ -12,6 +12,8 @@ const { loginBusiness } = require("../controllers/business/loginBusiness");
 const { verifyBusinessAdmin } = require("../middlewares/verifyBusinessAdmin");
 const { loginRestaurant } = require("../controllers/login/loginRestaurant");
 const getRoles = require("../controllers/commons/getRoles");
+const getBusinessAdminInfo = require("../controllers/commons/getBusinessAdminInfo");
+
 const router = express.Router();
 
 //POST calls
@@ -23,6 +25,11 @@ router.post("/login-business", loginBusiness);
 //GET calls
 router.get("/get-roles/roleName=:roleName", getRoles);
 router.get("/get-all-roles", getRoles.getAllRoles);
+router.get(
+  "/get-user-businessadmin",
+  verifyBusinessAdmin,
+  getBusinessAdminInfo
+);
 //PUT calls
 
 //DEL calls
