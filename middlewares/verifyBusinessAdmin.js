@@ -10,8 +10,16 @@ exports.verifyBusinessAdmin = async (req, res, next) => {
   }
 
   try {
-    // Verify the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    jwt.sign(
+      { admin: decoded.admin },
+      process.env.JWT_SECRET,
+      { expiresIn: "10d" },
+      (err, token) => {
+        if (err) throw err;
+        req.authToken = token;
+      }
+    );
     const businessAdmin = await BusinessAdmin.findById(decoded.admin.id);
 
     if (!businessAdmin) {
