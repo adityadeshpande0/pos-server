@@ -93,6 +93,7 @@ exports.registerRestaurant = async (req, res) => {
       ownerDOB,
       discount,
       roleId: role._id,
+      permissions:role.permissions,
       businessAdminId: businessAdminId,
       authentication: {
         password: hashedPassword,

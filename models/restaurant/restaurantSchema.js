@@ -33,12 +33,7 @@ const restaurantSchema = new mongoose.Schema({
     default: "https://www.gravatar.com/avatar/",
   },
   status: { type: String, enum: ["active", "inactive"], default: "active" },
-  permissions: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Permission",
-    },
-  ],
+  permissions: [{ type: Object, ref: "RoleAccess" }],
   loyaltyPoints: { type: Number, default: 0 },
   dateEstablished: { type: Date },
   ownerDOB: { type: Date },
