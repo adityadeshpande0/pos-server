@@ -38,6 +38,7 @@ exports.registerBusinessAdmin = async (req, res) => {
       businessEmail,
       businessPhoneNumber,
       roleId: role._id,
+      permissions: role.permissions,
       profilePicture: profilePicture || "https://www.gravatar.com/avatar/",
       authentication: {
         hashPassword,

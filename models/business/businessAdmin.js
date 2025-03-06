@@ -9,6 +9,7 @@ const businessAdminSchema = new mongoose.Schema({
     ref: "RoleAccess",
     required: true,
   },
+  permissions: [{ type: Object, ref: "RoleAccess" }],
   profilePicture: {
     type: String,
   },
