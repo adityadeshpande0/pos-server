@@ -1,5 +1,16 @@
 const mongoose = require("mongoose");
 
+const PermissionSchema = new mongoose.Schema({
+  name: { type: String, required: true }, 
+  access: { type: Boolean, default: false }, 
+  submenu: [
+    {
+      name: { type: String, required: true },
+      access: { type: Boolean, default: false }, 
+    },
+  ],
+});
+
 const RoleAccessSchema = new mongoose.Schema({
   roleName: {
     type: String,
@@ -10,32 +21,16 @@ const RoleAccessSchema = new mongoose.Schema({
       "STORE_WAITER",
       "STORE_CHEF",
       "STORE_CASHIER",
-      "BUSINESS_TECHNITIAN",
+      "BUSINESS_TECHNICIAN",
     ],
     required: true,
     unique: true,
   },
   permissions: {
-    food_management: {
-      access: { type: Boolean, default: false },
-      add_menu: { type: Boolean, default: false },
-      add_addons: { type: Boolean, default: false },
-      add_recipe: { type: Boolean, default: false },
-      food_list: { type: Boolean, default: false },
-      addon_list: { type: Boolean, default: false },
-      recipe_list: { type: Boolean, default: false },
-    },
-    order_management: {
-      access: { type: Boolean, default: false },
-      order_list: { type: Boolean, default: false },
-      new_order: { type: Boolean, default: false },
-      bill_list: { type: Boolean, default: false },
-    },
-    inventory_management: {
-      access: { type: Boolean, default: false },
-      inventory_list: { type: Boolean, default: false },
-      add_inventory: { type: Boolean, default: false },
-    },
+    food_management: PermissionSchema,
+    order_management: PermissionSchema,
+    inventory_management: PermissionSchema,
   },
 });
+
 module.exports = mongoose.model("RoleAccess", RoleAccessSchema);
