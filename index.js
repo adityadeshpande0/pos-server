@@ -8,19 +8,17 @@ const app = express();
 
 //CORS CONFIG
 const corsConfigurations = {
-  origin: process.env.CORS_ORIGIN,
-  
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
   optionSuccessStatus: 200,
-  
 };
 
 app.use(cors(corsConfigurations));
 
 app.options("*", cors(corsConfigurations));
-  
+
 //DATABASE CONNECTION
 DBConnect();
 
