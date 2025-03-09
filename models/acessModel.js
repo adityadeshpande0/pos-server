@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const PermissionSchema = new mongoose.Schema({
-  name: { type: String, required: true }, 
-  access: { type: Boolean, default: false }, 
+  name: { type: String, required: true },
+  access: { type: Boolean, default: false },
   submenu: [
     {
       name: { type: String, required: true },
-      access: { type: Boolean, default: false }, 
+      access: { type: Boolean, default: false },
     },
   ],
 });
@@ -27,6 +27,7 @@ const RoleAccessSchema = new mongoose.Schema({
     unique: true,
   },
   permissions: {
+    restaurant_management: PermissionSchema,
     food_management: PermissionSchema,
     order_management: PermissionSchema,
     inventory_management: PermissionSchema,

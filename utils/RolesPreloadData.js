@@ -2,9 +2,17 @@ const roles = [
   {
     roleName: "BUSINESS_ADMIN",
     permissions: {
+      restaurant_management: {
+        name: "Restaurant Management",
+        access: true,
+        submenu: [
+          { name: "Restaurants List", access: true },
+          { name: "Register New Restaurant", access: true },
+        ],
+      },
       food_management: {
         name: "Food Management",
-        access: true,
+        access: false,
         submenu: [
           { name: "Add Menu", access: true },
           { name: "Add Addons", access: true },
@@ -16,7 +24,7 @@ const roles = [
       },
       order_management: {
         name: "Order Management",
-        access: true,
+        access: false,
         submenu: [
           { name: "Order List", access: true },
           { name: "New Order", access: true },
@@ -25,7 +33,7 @@ const roles = [
       },
       inventory_management: {
         name: "Inventory Management",
-        access: true,
+        access: false,
         submenu: [
           { name: "Inventory List", access: true },
           { name: "Add Inventory", access: true },
