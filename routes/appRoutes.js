@@ -13,6 +13,7 @@ const { verifyBusinessAdmin } = require("../middlewares/verifyBusinessAdmin");
 const { loginRestaurant } = require("../controllers/login/loginRestaurant");
 const getRoles = require("../controllers/commons/getRoles");
 const getBusinessAdminInfo = require("../controllers/commons/getBusinessAdminInfo");
+const getAllRestaurantList = require("../controllers/business/getAllRestaurantList");
 
 const router = express.Router();
 
@@ -30,6 +31,7 @@ router.get(
   verifyBusinessAdmin,
   getBusinessAdminInfo
 );
+router.get("/get-all-restaurants", verifyBusinessAdmin, getAllRestaurantList);
 //PUT calls
 
 //DEL calls
