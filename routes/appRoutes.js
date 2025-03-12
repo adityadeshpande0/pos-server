@@ -31,7 +31,8 @@ router.get(
   verifyBusinessAdmin,
   getBusinessAdminInfo
 );
-router.get("/get-all-restaurants", verifyBusinessAdmin, getAllRestaurantList);
+router.get("/get-all-restaurants", verifyBusinessAdmin, getAllRestaurantList.getAllRestaurantList);
+router.get("/get-restaurant-details/:restaurantId", verifyBusinessAdmin, getAllRestaurantList.getRestaurantDetails);
 //PUT calls
 
 //DEL calls
