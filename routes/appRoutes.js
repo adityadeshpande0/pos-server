@@ -32,7 +32,7 @@ router.get(
   getBusinessAdminInfo
 );
 router.get("/get-all-restaurants", verifyBusinessAdmin, getAllRestaurantList.getAllRestaurantList);
-router.get("/get-restaurant-details/:restaurantId", verifyBusinessAdmin, getAllRestaurantList.getRestaurantDetails);
+router.get("/get-restaurant-details", verifyBusinessAdmin, getAllRestaurantList.getRestaurantDetails);
 //PUT calls
 
 //DEL calls

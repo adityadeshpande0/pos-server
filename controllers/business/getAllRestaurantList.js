@@ -36,7 +36,7 @@ const getAllRestaurantList = async (req, res) => {
 
 const getRestaurantDetails = async (req, res) => {
   try {
-    const restaurantId = req.params.restaurantId;
+    const restaurantId = req.query.restaurantId;
     const restaurant = await RestaurantSchema.findById(restaurantId);
     res.status(200).json({
       id: restaurant._id,
