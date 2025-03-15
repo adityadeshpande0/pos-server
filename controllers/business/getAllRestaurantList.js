@@ -4,7 +4,6 @@ const BusinessAdmin = require("../../models/business/businessAdmin");
 const getAllRestaurantList = async (req, res) => {
   try {
     const businessAdminId = req.businessAdmin.id;
-    console.log(businessAdminId);
     const restaurants = await RestaurantSchema.find({
       businessAdminId,
     });
